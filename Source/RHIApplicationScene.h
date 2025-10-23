@@ -1,7 +1,5 @@
 ﻿#pragma once
 #include <RHIApplication.h>
-//#define GLFW_INCLUDE_VULKAN
-//#include <GLFW/glfw3.h>
 
 
 #include <glm/glm.hpp>
@@ -11,7 +9,6 @@
 
 #include <RHI.h>
 #include <RHIObjects/Resource/RHIBuffer.h>
-//#include <RHIObjects/Window/RHIWindow.h>
 
 
 /*

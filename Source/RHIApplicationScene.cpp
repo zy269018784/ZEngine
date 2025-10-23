@@ -91,11 +91,10 @@ void RHIApplicationScene::Init()
     CreateEBO();
     CreateUBO();
     CreateTexture();
-
-
     CreateSRB();
     CreateVertexDescriptioin();
     CreateGraphicsPipeline();
+    std::cout << "RHIApplicationScene::Init OK" << std::endl;
 }
 
 void RHIApplicationScene::CreateTexture()
@@ -108,9 +107,9 @@ void RHIApplicationScene::CreateTexture()
         STBI_rgb_alpha统一转成4通道
     */
     stbi_uc* pixels = stbi_load(model1.Textures[0].c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-    VkDeviceSize imageSize = texWidth * texHeight * 4;
+    auto imageSize = texWidth * texHeight * 4;
     std::cout
-        << "texture" << model1.Textures[0].c_str() << " "
+        << "texture " << model1.Textures[0].c_str() << " "
         << "texWidth " << texWidth << " "
         << "texHeight  " << texHeight << " "
         << "texChannels  " << texChannels << " "
@@ -255,7 +254,7 @@ void RHIApplicationScene::Draw()
     CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
-  
+ 
 #if USE_MODEL
     CommandBuffer->RHIDrawIndexedPrimitive(model1.EBOData.size(), 1, 0, 0, 0);
 #else
