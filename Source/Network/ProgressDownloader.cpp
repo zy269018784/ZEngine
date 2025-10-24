@@ -139,7 +139,7 @@ private:
     }
 };
 
-// 带进度显示的版本（更复杂但显示进度）
+
 class ProgressDownloaderWithProgress {
 public:
     ProgressDownloaderWithProgress(net::io_context& ioc) : ioc_(ioc) {}
@@ -161,7 +161,13 @@ public:
             http::write(stream, req);
 
             beast::flat_buffer buffer;
+
+            // 创建解析器并设置更大的body限制
             http::response_parser<http::dynamic_body> parser;
+
+            // 关键修复：正确设置body大小限制
+            // 使用无符号64位整数作为参数
+            parser.body_limit(std::numeric_limits<std::uint64_t>::max()); // 最大限制
 
             // 读取响应头
             http::read_header(stream, buffer, parser);
@@ -178,6 +184,7 @@ public:
             if (cl_it != res.end()) {
                 try {
                     content_length = std::stoul(std::string(cl_it->value()));
+                    std::cout << "Content-Length: " << content_length << " bytes" << std::endl;
                 }
                 catch (const std::exception& e) {
                     std::cerr << "Warning: Invalid Content-Length" << std::endl;
@@ -198,17 +205,22 @@ public:
                 beast::error_code ec;
 
                 // 读取一些数据
-                size_t bytes_read = http::read_some(stream, buffer, parser, ec);
+                http::read_some(stream, buffer, parser, ec);
 
-                if (ec && ec != http::error::need_buffer) {
-                    if (ec == http::error::end_of_chunk || ec == http::error::end_of_stream) {
+                if (ec) {
+                    if (ec == http::error::end_of_chunk ||
+                        ec == http::error::end_of_stream ||
+                        ec == beast::http::error::partial_message) {
                         break; // 正常结束
+                    }
+                    if (ec == http::error::need_buffer) {
+                        continue; // 需要更多缓冲区，继续读取
                     }
                     std::cerr << "Read error: " << ec.message() << std::endl;
                     return false;
                 }
 
-                // 处理接收到的数据
+                // 获取消息体
                 auto& body = parser.get().body();
                 size_t chunk_size = 0;
 
@@ -224,6 +236,11 @@ public:
 
                 // 清空已写入的数据
                 body.clear();
+
+                // 消费缓冲区中的数据
+                if (chunk_size > 0) {
+                    buffer.consume(buffer.size());
+                }
 
                 // 显示进度
                 auto now = std::chrono::steady_clock::now();
@@ -252,6 +269,11 @@ public:
 
             std::cout << "Download completed: " << output_path << " (" << file_size << " bytes)" << std::endl;
 
+            if (content_length > 0 && file_size != content_length) {
+                std::cout << "Warning: File size (" << file_size
+                    << ") differs from Content-Length (" << content_length << ")" << std::endl;
+            }
+
             // 关闭连接
             beast::error_code ec;
             stream.socket().shutdown(tcp::socket::shutdown_both, ec);
@@ -269,11 +291,39 @@ private:
     net::io_context& ioc_;
 
     std::tuple<std::string, std::string, std::string> parse_url(const std::string& url) {
-        // 同上面的实现
-        // ...
+        std::string protocol, host, port, target;
+
+        size_t protocol_end = url.find("://");
+        if (protocol_end != std::string::npos) {
+            protocol = url.substr(0, protocol_end);
+            protocol_end += 3;
+        }
+        else {
+            protocol_end = 0;
+        }
+
+        size_t host_end = url.find('/', protocol_end);
+        if (host_end == std::string::npos) {
+            host = url.substr(protocol_end);
+            target = "/";
+        }
+        else {
+            host = url.substr(protocol_end, host_end - protocol_end);
+            target = url.substr(host_end);
+        }
+
+        size_t port_start = host.find(':');
+        if (port_start != std::string::npos) {
+            port = host.substr(port_start + 1);
+            host = host.substr(0, port_start);
+        }
+        else {
+            port = (protocol == "https") ? "443" : "80";
+        }
+
+        return { host, port, target };
     }
 };
-
 int ProgressDownloadermain(int argc, char* argv[]) {
     if (argc != 3) {
         std::cerr << "Usage: " << argv[0] << " <url> <output_file>\n";
@@ -284,10 +334,10 @@ int ProgressDownloadermain(int argc, char* argv[]) {
         net::io_context ioc;
 
         // 先用简单版本测试文件是否正确
-        ProgressDownloader downloader(ioc);
+       // ProgressDownloader downloader(ioc);
 
         // 或者用带进度显示的版本
-        // ProgressDownloaderWithProgress downloader(ioc);
+         ProgressDownloaderWithProgress downloader(ioc);
 
         if (downloader.download_with_progress(argv[1], argv[2])) {
             std::cout << "Download completed successfully!" << std::endl;
