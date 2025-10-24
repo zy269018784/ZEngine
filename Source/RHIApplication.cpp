@@ -1,5 +1,5 @@
 ﻿#include <RHIApplication.h>
-
+#include <iostream>
 RHIApplication::RHIApplication(GLFWwindow* InWindow)
     : Window(InWindow)
 {

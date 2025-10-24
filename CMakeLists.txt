@@ -80,7 +80,15 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
 
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Windows/File Format/3D/Assimp/6.0.2/vc143/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/File Format/3D/Assimp/6.0.2/vc143/lib)
-	list(APPEND LIBRARYS assimp-vc143-mt)	
+	list(APPEND LIBRARYS assimp-vc143-mt)
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Windows/Network/Curl/8.11/msvc2022_64/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/Network/Curl/8.11/msvc2022_64/lib)
+	list(APPEND LIBRARYS libcurl_imp)
+
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Windows/Network/boost/1.84/msvc2022_64/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/Network/boost/1.84/msvc2022_64/lib)
+	list(APPEND LIBRARYS libboost_system-vc143-mt-x64-1_84 libboost_exception-vc143-mt-x64-1_84 libboost_json-vc143-mt-x64-1_84)
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
 
 endif()
