@@ -110,7 +110,33 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/Codec/STB/2.27/msvc2019_64/lib)
 	list(APPEND LIBRARYS assimp-vc143-mt)
 
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/Codec/libmp3lame/3.100.2/vc143/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Codec/libmp3lame/3.100.2/vc143/lib/x64)
+	list (APPEND LIBRARYS		libmp3lame mp3lame)
 
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/Codec/fdk-acc/2.0.3/vc143/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Codec/fdk-acc/2.0.3/vc143/lib/)
+	list (APPEND LIBRARYS		fdk-aac)
+
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/Codec/opus/1.5.2/vc143/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Codec/opus/1.5.2/vc143/lib/)
+	list (APPEND LIBRARYS		opus)
+
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/Codec/libogg/1.3.6/vc143/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Codec/libogg/1.3.6/vc143/lib/)
+	list (APPEND LIBRARYS		ogg)
+
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/Codec/libtwolame/0.4.0/vc143/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Codec/libtwolame/0.4.0/vc143/lib/)
+	list (APPEND LIBRARYS		libtwolame_dll)
+
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/Codec/libflac/1.5.0/vc143/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Codec/libflac/1.5.0/vc143/lib/)
+	list (APPEND LIBRARYS		FLAC)
+
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/Codec/libvorbis/19/vc143/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Codec/libvorbis/19/vc143/lib/)
+	list (APPEND LIBRARYS		vorbis	vorbisenc vorbisfile)
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
 
 endif()

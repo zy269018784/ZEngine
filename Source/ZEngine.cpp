@@ -4,7 +4,7 @@
 #include "Window/SFMLWindow.h"
 #include "Window/GLFWWidnow.h"
 #include "Window/SDLWindow.h"
-#include "Image/Image.h"
+#include "MultiMedia/ImageFile/ImageFile.h"
 
 #include <thread>
 #include <iostream>
@@ -27,17 +27,17 @@ ZEngine::~ZEngine()
 
 void ZEngine::Run(int argc, char* argv[])
 {	
-	Image* img = Image::Read("3.webp");
-	std::cout << "write " << std::endl;
-	img->Write("4.jpg");
-	img->Write("4.hdr");
-	img->Write("4.bmp");
-	img->Write("4.tga");
-	img->Write("4.exr");
-	img->Write("4.png");
-	img->Write("4.webp");
-	img->Write("4.gif");
-	delete img;
+	//ImageFile* img = ImageFile::Read("3.webp");
+	//std::cout << "write " << std::endl;
+	//img->Write("4.jpg");
+	//img->Write("4.hdr");
+	//img->Write("4.bmp");
+	//img->Write("4.tga");
+	//img->Write("4.exr");
+	//img->Write("4.png");
+	//img->Write("4.webp");
+	//img->Write("4.gif");
+	//delete img;
 
 	Player->Play();
 

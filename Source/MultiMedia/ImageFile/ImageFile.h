@@ -2,7 +2,7 @@
 #include "Type/Vector.h"
 #include <cstdint>
 #include <string>
-class Image
+class ImageFile
 {
 public:
 	enum class PixelFormat : std::uint32_t
@@ -23,24 +23,24 @@ public:
         OctahedralSphere
     };
 public:
-    Image() = default;
-    Image(Vector2u InResolution, Image::PixelFormat InFormat, void* InPixels = nullptr);
-    virtual ~Image();
+    ImageFile() = default;
+    ImageFile(Vector2u InResolution, ImageFile::PixelFormat InFormat, void* InPixels = nullptr);
+    virtual ~ImageFile();
 public:
     int NChannels() const;
     float GetChannel(Vector2i P, int Channel, WrapMode WrapModeU = WrapMode::Clamp, WrapMode WrapModeV = WrapMode::Clamp) const;
     bool RemapPixelCoords(Vector2i* P, WrapMode WrapModeU, WrapMode WrapModeV) const;
 	bool Write(std::string name) const;
 public:
-	static Image* Read(std::string filename);
-    static Image* ReadPNG(const std::string name);
-    static Image* ReadJPG(const std::string name);
-    static Image* ReadTGA(const std::string name);
-    static Image* ReadBMP(const std::string name);
-    static Image* ReadHDR(const std::string name);
-    static Image* ReadEXR(const std::string name);
-    static Image* ReadWEBP(const std::string name);
-    static Image* ReadGIF(const std::string name);
+	static ImageFile* Read(std::string filename);
+    static ImageFile* ReadPNG(const std::string name);
+    static ImageFile* ReadJPG(const std::string name);
+    static ImageFile* ReadTGA(const std::string name);
+    static ImageFile* ReadBMP(const std::string name);
+    static ImageFile* ReadHDR(const std::string name);
+    static ImageFile* ReadEXR(const std::string name);
+    static ImageFile* ReadWEBP(const std::string name);
+    static ImageFile* ReadGIF(const std::string name);
 private:
     bool WritePNG(std::string name) const;
     bool WriteJPG(std::string name) const;

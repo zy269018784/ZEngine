@@ -1,4 +1,4 @@
-﻿#include "Image.h"
+﻿#include "ImageFile.h"
 #include "Math/Math.h"
 /*
 	c++
@@ -58,7 +58,7 @@ bool HasExtension(std::string filename, std::string e) {
         [](char a, char b) { return std::tolower(a) == std::tolower(b); });
 }
 
-Image::Image(Vector2u InResolution, PixelFormat InFormat, void* InPixels)
+ImageFile::ImageFile(Vector2u InResolution, PixelFormat InFormat, void* InPixels)
 	: Resolution(InResolution), Format(InFormat), Pixels(InPixels)
 {
 	auto Count = Resolution.X * Resolution.Y;
@@ -66,27 +66,27 @@ Image::Image(Vector2u InResolution, PixelFormat InFormat, void* InPixels)
 	{
 		switch (InFormat)
 		{
-		case Image::PixelFormat::PF_R8G8B8_UINT:
+		case ImageFile::PixelFormat::PF_R8G8B8_UINT:
 			Count *= 3;
 			Pixels = (void*)(new std::uint8_t[Count]);
 			break;
-		case Image::PixelFormat::PF_R32G32B32_FLOAT:
+		case ImageFile::PixelFormat::PF_R32G32B32_FLOAT:
 			Count *= 3;
 			Pixels = (void*)(new float[Count]);
 			break;
-		case Image::PixelFormat::PF_R16G16B16_HALF:
+		case ImageFile::PixelFormat::PF_R16G16B16_HALF:
 			Count *= 1.5;
 			Pixels = (void*)(new float[Count]);
 			break;
-		case Image::PixelFormat::PF_R8G8B8A8_UINT:
+		case ImageFile::PixelFormat::PF_R8G8B8A8_UINT:
 			Count *= 4;
 			Pixels = (void*)(new std::uint8_t[Count]);
 			break;
-		case Image::PixelFormat::PF_R32G32B32A32_FLOAT:
+		case ImageFile::PixelFormat::PF_R32G32B32A32_FLOAT:
 			Count *= 4;
 			Pixels = (void*)(new float[Count]);
 			break;
-		case Image::PixelFormat::PF_R16G16B16A16_HALF:
+		case ImageFile::PixelFormat::PF_R16G16B16A16_HALF:
 			Count *= 2;
 			Pixels = (void*)(new float[Count]);
 			break;
@@ -96,24 +96,24 @@ Image::Image(Vector2u InResolution, PixelFormat InFormat, void* InPixels)
 	}
 }
 
-Image::~Image()
+ImageFile::~ImageFile()
 {
 	std::uint8_t* P8;
 	float* P32;
 	switch (Format)
 	{
-	case Image::PixelFormat::PF_R8G8B8_UINT:
-	case Image::PixelFormat::PF_R8G8B8A8_UINT:
+	case ImageFile::PixelFormat::PF_R8G8B8_UINT:
+	case ImageFile::PixelFormat::PF_R8G8B8A8_UINT:
 		P8 = (std::uint8_t*)(Pixels);
 		delete P8;
 		break;
-	case Image::PixelFormat::PF_R32G32B32_FLOAT:
-	case Image::PixelFormat::PF_R32G32B32A32_FLOAT:
+	case ImageFile::PixelFormat::PF_R32G32B32_FLOAT:
+	case ImageFile::PixelFormat::PF_R32G32B32A32_FLOAT:
 		P32 = (float*)(Pixels);
 		delete P32;
 		break;
-	case Image::PixelFormat::PF_R16G16B16_HALF:
-	case Image::PixelFormat::PF_R16G16B16A16_HALF:
+	case ImageFile::PixelFormat::PF_R16G16B16_HALF:
+	case ImageFile::PixelFormat::PF_R16G16B16A16_HALF:
 		P32 = (float*)(Pixels);
 		delete P32;
 		break;
@@ -122,19 +122,19 @@ Image::~Image()
 	}
 }
 
-int Image::NChannels() const
+int ImageFile::NChannels() const
 {
 	int N = 0;
 	switch (Format)
 	{
-	case Image::PixelFormat::PF_R8G8B8_UINT:
-	case Image::PixelFormat::PF_R16G16B16_HALF:
-	case Image::PixelFormat::PF_R32G32B32_FLOAT:
+	case ImageFile::PixelFormat::PF_R8G8B8_UINT:
+	case ImageFile::PixelFormat::PF_R16G16B16_HALF:
+	case ImageFile::PixelFormat::PF_R32G32B32_FLOAT:
 		N = 3;
 		break;
-	case Image::PixelFormat::PF_R8G8B8A8_UINT:
-	case Image::PixelFormat::PF_R16G16B16A16_HALF:
-	case Image::PixelFormat::PF_R32G32B32A32_FLOAT:
+	case ImageFile::PixelFormat::PF_R8G8B8A8_UINT:
+	case ImageFile::PixelFormat::PF_R16G16B16A16_HALF:
+	case ImageFile::PixelFormat::PF_R32G32B32A32_FLOAT:
 		N = 4;
 		break;
 	default:
@@ -144,7 +144,7 @@ int Image::NChannels() const
 	return N;
 }
 
-float Image::GetChannel(Vector2i P, int Channel, WrapMode WrapModeU, WrapMode WrapModeV) const
+float ImageFile::GetChannel(Vector2i P, int Channel, WrapMode WrapModeU, WrapMode WrapModeV) const
 {
 	float V;
 	if (!RemapPixelCoords(&P, WrapModeU, WrapModeV))
@@ -154,28 +154,28 @@ float Image::GetChannel(Vector2i P, int Channel, WrapMode WrapModeU, WrapMode Wr
 	float* P32;
 	switch (Format)
 	{
-	case Image::PixelFormat::PF_R8G8B8_UINT:
+	case ImageFile::PixelFormat::PF_R8G8B8_UINT:
 		P8 = (std::uint8_t*)(Pixels);
 		Offset = 3 * Offset + Channel;
 		V = P8[Offset];
 		break;
-	case Image::PixelFormat::PF_R16G16B16_HALF:
+	case ImageFile::PixelFormat::PF_R16G16B16_HALF:
 		Offset = 3 * Offset + Channel;
 		break;
-	case Image::PixelFormat::PF_R32G32B32_FLOAT:
+	case ImageFile::PixelFormat::PF_R32G32B32_FLOAT:
 		P32 = (float*)(Pixels);
 		Offset = 3 * Offset + Channel;
 		V = P32[Offset];
 		break;
-	case Image::PixelFormat::PF_R8G8B8A8_UINT:
+	case ImageFile::PixelFormat::PF_R8G8B8A8_UINT:
 		P8 = (std::uint8_t*)(Pixels);
 		Offset = 4 * Offset + Channel;
 		V = P8[Offset];
 		break;
-	case Image::PixelFormat::PF_R16G16B16A16_HALF:
+	case ImageFile::PixelFormat::PF_R16G16B16A16_HALF:
 		Offset = 4 * Offset + Channel;
 		break;
-	case Image::PixelFormat::PF_R32G32B32A32_FLOAT:
+	case ImageFile::PixelFormat::PF_R32G32B32A32_FLOAT:
 		P32 = (float*)(Pixels);
 		Offset = 4 * Offset + Channel;
 		V = P32[Offset];
@@ -186,34 +186,34 @@ float Image::GetChannel(Vector2i P, int Channel, WrapMode WrapModeU, WrapMode Wr
 	return V;
 }
 
-bool Image::RemapPixelCoords(Vector2i* P, WrapMode WrapModeU, WrapMode WrapModeV) const
+bool ImageFile::RemapPixelCoords(Vector2i* P, WrapMode WrapModeU, WrapMode WrapModeV) const
 {
 	switch (WrapModeU)
 	{
-	case Image::WrapMode::Black:
+	case ImageFile::WrapMode::Black:
 		break;
-	case Image::WrapMode::Clamp:
+	case ImageFile::WrapMode::Clamp:
 		P->X = Clamp(P->X, 0, Resolution.X - 1);
 		break;
-	case Image::WrapMode::Repeat:
+	case ImageFile::WrapMode::Repeat:
 		P->X = Mod(P->X, Resolution.X);
 		break;
-	case Image::WrapMode::OctahedralSphere:
+	case ImageFile::WrapMode::OctahedralSphere:
 		break;
 	default:
 		break;
 	}
 	switch (WrapModeV)
 	{
-	case Image::WrapMode::Black:
+	case ImageFile::WrapMode::Black:
 		break;
-	case Image::WrapMode::Clamp:
+	case ImageFile::WrapMode::Clamp:
 		P->Y = Clamp(P->Y, 0, Resolution.X - 1);
 		break;
-	case Image::WrapMode::Repeat:
+	case ImageFile::WrapMode::Repeat:
 		P->Y = Mod(P->X, Resolution.Y);
 		break;
-	case Image::WrapMode::OctahedralSphere:
+	case ImageFile::WrapMode::OctahedralSphere:
 		break;
 	default:
 		break;
@@ -221,7 +221,7 @@ bool Image::RemapPixelCoords(Vector2i* P, WrapMode WrapModeU, WrapMode WrapModeV
 	return true;
 }
 
-bool Image::Write(std::string filename) const
+bool ImageFile::Write(std::string filename) const
 {
 	if (HasExtension(filename, "png"))
 		return WritePNG(filename);
@@ -242,7 +242,7 @@ bool Image::Write(std::string filename) const
 	return false;
 }
 
-Image* Image::Read(std::string filename)
+ImageFile* ImageFile::Read(std::string filename)
 {
 	if (HasExtension(filename, "png"))
 		return ReadPNG(filename);
@@ -261,9 +261,9 @@ Image* Image::Read(std::string filename)
 	return nullptr;
 }
 
-Image* Image::ReadPNG(const std::string filename)
+ImageFile* ImageFile::ReadPNG(const std::string filename)
 {
-	Image* image = nullptr;
+	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
 	std::cout << "png channels " << channels << std::endl;
@@ -273,11 +273,11 @@ Image* Image::ReadPNG(const std::string filename)
 
 		switch (channels) {
 		case 3:
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		case 4:
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		default:
@@ -287,9 +287,9 @@ Image* Image::ReadPNG(const std::string filename)
 	return image;
 }
 
-Image* Image::ReadJPG(const std::string filename)
+ImageFile* ImageFile::ReadJPG(const std::string filename)
 {
-	Image* image = nullptr;
+	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
 	if (data) {
@@ -298,11 +298,11 @@ Image* Image::ReadJPG(const std::string filename)
 
 		switch (channels) {
 		case 3: 
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		case 4: 
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		default:
@@ -312,9 +312,9 @@ Image* Image::ReadJPG(const std::string filename)
 	return image;
 }
 
-Image* Image::ReadTGA(const std::string filename)
+ImageFile* ImageFile::ReadTGA(const std::string filename)
 {
-	Image* image = nullptr;
+	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
 	if (data) {
@@ -323,11 +323,11 @@ Image* Image::ReadTGA(const std::string filename)
 
 		switch (channels) {
 		case 3:
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		case 4:
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		default:
@@ -337,9 +337,9 @@ Image* Image::ReadTGA(const std::string filename)
 	return image;
 }
 
-Image* Image::ReadBMP(const std::string filename)
+ImageFile* ImageFile::ReadBMP(const std::string filename)
 {
-	Image* image = nullptr;
+	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
 	if (data) {
@@ -348,11 +348,11 @@ Image* Image::ReadBMP(const std::string filename)
 
 		switch (channels) {
 		case 3:
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		case 4:
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		default:
@@ -362,9 +362,9 @@ Image* Image::ReadBMP(const std::string filename)
 	return image;
 }
 
-Image* Image::ReadHDR(const std::string filename)
+ImageFile* ImageFile::ReadHDR(const std::string filename)
 {
-	Image* image = nullptr;
+	ImageFile* image = nullptr;
 	int width, height, channels;
 	float* data = stbi_loadf(filename.c_str(), &width, &height, &channels, 0);
 	if (data) {
@@ -373,11 +373,11 @@ Image* Image::ReadHDR(const std::string filename)
 
 		switch (channels) {
 		case 3:
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R32G32B32_FLOAT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R32G32B32_FLOAT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		case 4:
-			image = new Image(Vector2u(width, height), PixelFormat::PF_R32G32B32A32_FLOAT);
+			image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R32G32B32A32_FLOAT);
 			std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 			break;
 		default:
@@ -387,7 +387,7 @@ Image* Image::ReadHDR(const std::string filename)
 	return image;
 }
 
-Image* Image::ReadEXR(const std::string filename)
+ImageFile* ImageFile::ReadEXR(const std::string filename)
 {
 	return nullptr;
 }
@@ -404,9 +404,9 @@ static std::vector<uint8_t> readFile(const std::string& filename) {
 	return data;
 }
 
-Image* Image::ReadWEBP(const std::string filename)
+ImageFile* ImageFile::ReadWEBP(const std::string filename)
 {
-	Image* image = nullptr;
+	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* rgb_data = nullptr;
 	// 读取文件数据
@@ -435,7 +435,7 @@ Image* Image::ReadWEBP(const std::string filename)
 		/*
 			拷贝image内存
 		*/
-		image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
+		image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
 		std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 	}
 	else
@@ -456,7 +456,7 @@ Image* Image::ReadWEBP(const std::string filename)
 		/*
 			拷贝image内存
 		*/
-		image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
+		image = new ImageFile(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
 		std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
 	}
 
@@ -464,13 +464,13 @@ Image* Image::ReadWEBP(const std::string filename)
 	return image;
 }
 
-Image* Image::ReadGIF(const std::string name)
+ImageFile* ImageFile::ReadGIF(const std::string name)
 {
-	Image* image = nullptr;
+	ImageFile* image = nullptr;
 	return image;
 }
 
-bool Image::WritePNG(std::string filename) const
+bool ImageFile::WritePNG(std::string filename) const
 {
 #if 1
 	std::unique_ptr<uint8_t[]> Pixel8 = std::make_unique<uint8_t[]>(NChannels() * Resolution.X * Resolution.Y);
@@ -488,7 +488,7 @@ bool Image::WritePNG(std::string filename) const
 #endif
 }
 
-bool Image::WriteJPG(std::string filename) const
+bool ImageFile::WriteJPG(std::string filename) const
 {
 	std::unique_ptr<uint8_t[]> Pixel8 = std::make_unique<uint8_t[]>(NChannels() * Resolution.X * Resolution.Y);
 	for (int row = 0; row < Resolution.Y; row++) {
@@ -502,7 +502,7 @@ bool Image::WriteJPG(std::string filename) const
 	return true;
 }
 
-bool Image::WriteTGA(std::string filename) const
+bool ImageFile::WriteTGA(std::string filename) const
 {
 	std::unique_ptr<uint8_t[]> Pixel8 = std::make_unique<uint8_t[]>(NChannels() * Resolution.X * Resolution.Y);
 	for (int row = 0; row < Resolution.Y; row++) {
@@ -516,7 +516,7 @@ bool Image::WriteTGA(std::string filename) const
 	return true;
 }
 
-bool Image::WriteBMP(std::string filename) const
+bool ImageFile::WriteBMP(std::string filename) const
 {
 	std::unique_ptr<uint8_t[]> Pixel8 = std::make_unique<uint8_t[]>(NChannels() * Resolution.X * Resolution.Y);
 	for (int row = 0; row < Resolution.Y; row++) {
@@ -530,7 +530,7 @@ bool Image::WriteBMP(std::string filename) const
 	return true;
 }
 
-bool Image::WriteHDR(std::string filename) const
+bool ImageFile::WriteHDR(std::string filename) const
 {
 	std::unique_ptr<float []> Pixel32 = std::make_unique<float[]>(NChannels() * Resolution.X * Resolution.Y);
 	for (int row = 0; row < Resolution.Y; row++) {
@@ -544,7 +544,7 @@ bool Image::WriteHDR(std::string filename) const
 	return true;
 }
 
-bool Image::WriteEXR(std::string filename) const
+bool ImageFile::WriteEXR(std::string filename) const
 {
 	Imf::Rgba* pixels = new Imf::Rgba[Resolution.X * Resolution.Y];
 
@@ -588,7 +588,7 @@ bool Image::WriteEXR(std::string filename) const
 	stbi_write_hdr(filename.c_str(), Resolution.X, Resolution.Y, NChannels(), Pixel32.get());
 	return true;
 */
-bool Image::WriteWEBP(std::string filename) const
+bool ImageFile::WriteWEBP(std::string filename) const
 {
 	std::uint8_t* output = nullptr;
 	size_t size = 0;
@@ -622,7 +622,7 @@ bool Image::WriteWEBP(std::string filename) const
 	return true;
 }
 
-bool Image::WriteGIF(std::string filename) const
+bool ImageFile::WriteGIF(std::string filename) const
 {
 	int error = 0;
 	GifFileType* gif = EGifOpenFileName(filename.c_str(), false, &error);
@@ -695,7 +695,7 @@ bool Image::WriteGIF(std::string filename) const
 	return true;
 }
 
-bool Image::WriteSVG(std::string name) const
+bool ImageFile::WriteSVG(std::string name) const
 {
 	return true;
 }
