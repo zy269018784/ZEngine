@@ -237,6 +237,8 @@ bool Image::Write(std::string filename) const
 		return WriteEXR(filename);
 	else if (HasExtension(filename, "webp"))
 		return WriteWEBP(filename);
+	else if (HasExtension(filename, "gif"))
+		return WriteGIF(filename);
 	return false;
 }
 
