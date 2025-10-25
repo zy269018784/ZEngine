@@ -40,6 +40,7 @@ public:
     static Image* ReadHDR(const std::string name);
     static Image* ReadEXR(const std::string name);
     static Image* ReadWEBP(const std::string name);
+    static Image* ReadGIF(const std::string name);
 private:
     bool WritePNG(std::string name) const;
     bool WriteJPG(std::string name) const;
@@ -48,6 +49,7 @@ private:
     bool WriteHDR(std::string name) const;
     bool WriteEXR(std::string name) const;
     bool WriteWEBP(std::string name) const;
+    bool WriteGIF(std::string name) const;
     bool WriteSVG(std::string name) const;
 private:
     /*

@@ -35,6 +35,10 @@
 #include <webp/decode.h>
 #include <webp/mux.h>
 #include <webp/demux.h>
+/*
+	gif
+*/
+#include <gif_lib.h>
 
 bool HasExtension(std::string filename, std::string e) {
     std::string ext = e;
@@ -408,7 +412,6 @@ Image* Image::ReadWEBP(const std::string filename)
 	if (webp_data.empty()) {
 		return {};
 	}
-	std::cout << "ReadWEBP " << filename << std::endl;
 
 	WebPBitstreamFeatures features;
 	VP8StatusCode status = WebPGetFeatures(webp_data.data(), webp_data.size(), &features);
@@ -432,7 +435,6 @@ Image* Image::ReadWEBP(const std::string filename)
 		*/
 		image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8_UINT);
 		std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
-		std::cout << "ReadWEBP " << 3 << std::endl;
 	}
 	else
 	{
@@ -443,13 +445,6 @@ Image* Image::ReadWEBP(const std::string filename)
 			return {};
 		}
 
-		std::cout << "ReadWEBP features.has_alpha " << features.has_alpha << " " 
-			<< features.width << " "
-			<< features.height << " "
-			<< width << " "
-			<< height << " "
-			
-			<< std::endl;
 		/*
 			拷贝到临时缓冲
 		*/
@@ -461,10 +456,15 @@ Image* Image::ReadWEBP(const std::string filename)
 		*/
 		image = new Image(Vector2u(width, height), PixelFormat::PF_R8G8B8A8_UINT);
 		std::copy(pixels.begin(), pixels.end(), (std::uint8_t*)image->Pixels);
-		std::cout << "ReadWEBP " << 3 << std::endl;
 	}
 
 	WebPFree(rgb_data);
+	return image;
+}
+
+Image* Image::ReadGIF(const std::string name)
+{
+	Image* image = nullptr;
 	return image;
 }
 
@@ -617,6 +617,79 @@ bool Image::WriteWEBP(std::string filename) const
 	file.write(reinterpret_cast<char*>(output), size);
 	file.close();
 	WebPFree(output);
+	return true;
+}
+
+bool Image::WriteGIF(std::string filename) const
+{
+	int error = 0;
+	GifFileType* gif = EGifOpenFileName(filename.c_str(), false, &error);
+	if (!gif) {
+		printf("Error creating GIF file: %s\n", GifErrorString(error));
+		return 1;
+	}
+
+	int width  = Resolution.X;
+	int height = Resolution.Y;
+	int colorMapSize = 256;
+
+	// 创建颜色映射
+	ColorMapObject* colorMap = GifMakeMapObject(colorMapSize, NULL);
+	if (!colorMap) {
+		printf("Error creating color map\n");
+		EGifCloseFile(gif, &error);
+		return 1;
+	}
+
+	// 填充颜色映射（这里创建一个简单的灰度映射）
+	for (int i = 0; i < colorMapSize; i++) {
+		colorMap->Colors[i].Red = i;
+		colorMap->Colors[i].Green = i;
+		colorMap->Colors[i].Blue = i;
+	}
+
+	// 设置 GIF 的全局颜色映射
+	gif->SColorMap = colorMap;
+
+	// 设置 GIF 屏幕描述符
+	gif->SWidth  = width;
+	gif->SHeight = height;
+	gif->SColorResolution = 8;
+	gif->SBackGroundColor = 0;
+	gif->AspectByte = 0;
+
+	// 分配图像数据（这里创建一个简单的渐变）
+	GifByteType* pixels = (GifByteType*)malloc(width * height);
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			int index = (x + y) % colorMapSize;
+			pixels[y * width + x] = index;
+		}
+	}
+
+	// 写入图像描述符
+	if (EGifPutImageDesc(gif, 0, 0, width, height, false, NULL) != GIF_OK) {
+		printf("Error writing image descriptor: %s\n", GifErrorString(gif->Error));
+		free(pixels);
+		GifFreeMapObject(colorMap);
+		EGifCloseFile(gif, &error);
+		return 1;
+	}
+
+	// 写入图像数据（按行写入）
+	for (int i = 0; i < height; i++) {
+		if (EGifPutLine(gif, pixels + i * width, width) != GIF_OK) {
+			printf("Error writing image data: %s\n", GifErrorString(gif->Error));
+			free(pixels);
+			GifFreeMapObject(colorMap);
+			EGifCloseFile(gif, &error);
+			return 1;
+		}
+	}
+
+	free(pixels);
+	GifFreeMapObject(colorMap);
+	EGifCloseFile(gif, &error);
 	return true;
 }
 

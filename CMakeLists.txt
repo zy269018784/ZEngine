@@ -94,6 +94,10 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/File\ Format/webp/1.6.0/msvc_2022/lib)
 	list(APPEND LIBRARYS libwebp libwebpdecoder libwebpdemux libwebpmux libsharpyuv)
 
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Windows/File\ Format/giflib/5.2.2/msvc2022_64/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/File\ Format/giflib/5.2.2/msvc2022_64/lib)
+	list(APPEND LIBRARYS giflib)
+
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Windows/Network/Curl/8.11/msvc2022_64/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/Network/Curl/8.11/msvc2022_64/lib)
 	list(APPEND LIBRARYS libcurl_imp)

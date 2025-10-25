@@ -36,6 +36,7 @@ void ZEngine::Run(int argc, char* argv[])
 	img->Write("4.exr");
 	img->Write("4.png");
 	img->Write("4.webp");
+	img->Write("4.gif");
 	delete img;
 
 	Player->Play();
