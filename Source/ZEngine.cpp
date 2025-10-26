@@ -42,7 +42,7 @@ void ZEngine::Run(int argc, char* argv[])
 
 	AudioFile AF;
 	std::string pcmfile = "1.pcm";
-	std::string outfile = "1.acc";
+	std::string outfile = "1.mp3";
 
 	PCM pcm;
 	pcm.SetChannels(2);
