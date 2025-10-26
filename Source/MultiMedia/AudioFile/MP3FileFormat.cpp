@@ -3,10 +3,13 @@
 
 #include <lame/lame.h>
 
-#include <stdio.h>
+#include <chrono>
+#include <iostream>
 
 int MP3FileFormat::LameEncoder(class PCM* InPCM, std::string OutputFile)
 {
+    auto start = std::chrono::high_resolution_clock::now();
+
 	lame_global_flags* GlobalFlags = nullptr;
 
     FILE* MP3File = fopen(OutputFile.c_str(), "wb");
@@ -25,33 +28,40 @@ int MP3FileFormat::LameEncoder(class PCM* InPCM, std::string OutputFile)
     //lame_set_quality(GlobalFlags, 2);  // 质量等级 2(较好)
     //lame_init_params(GlobalFlags);
 
-    const int BUFFER_SIZE = 8192;
+    //const int BUFFER_SIZE = 8192;
     const int MP3_BUFFER_SIZE = 8192;
     unsigned char MP3Buffer[MP3_BUFFER_SIZE]; 
 
     /*
-        样本数量
+        PCM样本数量
     */
     int LeftSampleCount = InPCM->GetSampleCount();
     /*
         通道数量
     */
     int Channels = InPCM->GetChannels();
+    /*
+        PCM样本Buffer
+    */
     auto PCMBuffer = InPCM->GetPCMBuffer();
     int PCMBufferSampleOffset = 0;
     /*
         每次循环处理8192个样本
     */
-    int CurrentSampleCount  = 8192;
+    const int SampleCountPerLoop = 8192;
+    int CurrentSampleCount  = SampleCountPerLoop;
     size_t NumWriteBytes = 0;
     while (LeftSampleCount > 0)
     {
-        CurrentSampleCount = 8192;
-        if (LeftSampleCount < 8192)
+        CurrentSampleCount = SampleCountPerLoop;
+        if (LeftSampleCount < SampleCountPerLoop)
             CurrentSampleCount = LeftSampleCount;
-
+        /*
+             Channels个PCM样本构成1个样本
+        */
+        int  NumSamples = CurrentSampleCount / Channels;
         int encoded = lame_encode_buffer_interleaved(
-            GlobalFlags, PCMBuffer.data() + PCMBufferSampleOffset, CurrentSampleCount / Channels, MP3Buffer, MP3_BUFFER_SIZE
+            GlobalFlags, PCMBuffer.data() + PCMBufferSampleOffset, NumSamples, MP3Buffer, MP3_BUFFER_SIZE
         );
 
         NumWriteBytes += fwrite(MP3Buffer, 1, encoded, MP3File);
@@ -66,9 +76,15 @@ int MP3FileFormat::LameEncoder(class PCM* InPCM, std::string OutputFile)
     // 刷新剩余数据
     int final = lame_encode_flush(GlobalFlags, MP3Buffer, MP3_BUFFER_SIZE);
     NumWriteBytes += fwrite(MP3Buffer, 1, final, MP3File);
-    printf("NumWriteBytes %llu\n", NumWriteBytes);
 
     lame_close(GlobalFlags);
 
+    // 获取结束时间点
+    auto end = std::chrono::high_resolution_clock::now();
+
+    // 计算时间差
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    std::cout << "cost " << duration.count() << " ms " << std::endl;
 	return 0;
 }

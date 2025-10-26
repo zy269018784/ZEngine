@@ -1,6 +1,6 @@
 ﻿#include "FlacFileFormat.h"
 #include "PCM.h"
-
+#include <iostream>
 #define FLAC__NO_DLL
 #include <FLAC/stream_encoder.h>
 
@@ -20,13 +20,21 @@ static FLAC__StreamEncoderWriteStatus write_callback(
 
 int FlacFileFormat::FlacEncoder(class PCM* InPCM, std::string OutputFile)
 {
-    // 配置 PCM 参数
-    //unsigned sample_rate = 44100;
-    //unsigned channels = 2;
-    //unsigned bps = 16;
     unsigned sample_rate = InPCM->GetSampleRate();
+    /*
+        通道数量
+    */
     unsigned channels = InPCM->GetChannels();
-    unsigned bps = InPCM->GetBytesPerSample() * 8;
+    /*
+        每个PCM样本多少位 = 每个样本字节数 * 8
+    */
+    //InPCM->SetBytesPerSample(4);
+    unsigned BitsPerSample = InPCM->GetBytesPerSample() * 8;
+    //BitsPerSample = 32;
+    auto total_pcm_samples = InPCM->GetSampleCount();
+
+    auto total_samples = total_pcm_samples / channels;
+    std::cout << "total_samples " << total_samples << std::endl;
 
     // 打开输入 PCM 文件和输出 FLAC 文件
     //FILE* pcm = fopen(InputFilename, "rb");
@@ -38,8 +46,9 @@ int FlacFileFormat::FlacEncoder(class PCM* InPCM, std::string OutputFile)
     // 初始化 FLAC 编码器
     FLAC__StreamEncoder* encoder = FLAC__stream_encoder_new();
     FLAC__stream_encoder_set_channels(encoder, channels);
-    FLAC__stream_encoder_set_bits_per_sample(encoder, bps);
+    FLAC__stream_encoder_set_bits_per_sample(encoder, BitsPerSample);
     FLAC__stream_encoder_set_sample_rate(encoder, sample_rate);
+    FLAC__stream_encoder_set_total_samples_estimate(encoder, total_samples);
 
     // 设置回调函数
     FLAC__stream_encoder_init_stream(encoder, write_callback, NULL, NULL, NULL, flac);
@@ -73,7 +82,6 @@ int FlacFileFormat::FlacEncoder(class PCM* InPCM, std::string OutputFile)
 
         LeftSampleCount -= CurrentSampleCount;
     }
-    printf("NumWriteBytes %llu\n", NumWriteBytes);
     // 清理 FLAC 编码器
     FLAC__stream_encoder_finish(encoder);
     // 释放 FLAC 编码器

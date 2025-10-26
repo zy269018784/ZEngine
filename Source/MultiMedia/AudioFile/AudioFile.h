@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include "PCM.h"
 /*
 	mp2
 	mp3
@@ -73,6 +74,7 @@ public:
 	AudioFile();
 	~AudioFile();
 	int EncodePCM(char* InputFilename, char* OutputFilename);
+	int EncodePCM(PCM *data, char* OutputFilename);
 private:
 	int EncodeToMP2(char* InputFilename, char* OutputFilename);
 	int EncodeToMP3(char* InputFilename, char* OutputFilename);

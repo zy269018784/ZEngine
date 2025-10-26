@@ -75,6 +75,51 @@ int AudioFile::EncodePCM(char* InputFilename, char* OutputFilename)
     return 0;
 }
 
+int AudioFile::EncodePCM(PCM* pcm, char* OutputFilename)
+{
+    if (HasExtension(OutputFilename, ".mp2"))
+    {
+       
+    }
+    else if (HasExtension(OutputFilename, ".mp3"))
+    {
+        MP3FileFormat mp3ff;
+        return mp3ff.LameEncoder(pcm, OutputFilename);
+    }
+    else if (HasExtension(OutputFilename, ".ogg"))
+    {
+        OggFileFormat oggff;
+        return oggff.VorbisEncoder(pcm, OutputFilename);
+    }
+    else if (HasExtension(OutputFilename, ".flac"))
+    {
+        FlacFileFormat flacff;
+        return flacff.FlacEncoder(pcm, OutputFilename);
+    }
+    else if (HasExtension(OutputFilename, ".acc"))
+    {
+        
+    }
+    else if (HasExtension(OutputFilename, ".ac3"))
+    {
+        
+    }
+    else if (HasExtension(OutputFilename, ".lc3"))
+    {
+       
+    }
+    else if (HasExtension(OutputFilename, ".opus"))
+    {
+        
+    }
+    else
+    {
+        printf("unsupportted format\n");
+        return -1;
+    }
+    return 0;
+}
+
 int AudioFile::EncodeToMP2(char* InputFilename, char* OutputFilename)
 {
 
@@ -298,85 +343,94 @@ int AudioFile::EncodeToLC3(char* InputFilename, char* OutputFilename)
 
 int AudioFile::EncodeToOGG(char* InputFilename, char* OutputFilename)
 {
-    FILE* pcm_file = fopen(InputFilename, "rb"); // 16-bit 小端 PCM
-    FILE* ogg_file = fopen(OutputFilename, "wb");
+    PCM pcm;
+    pcm.SetChannels(2);
+    pcm.SetBytesPerSample(2);
+    pcm.SetSampleRate(44100);
+    pcm.ReadFromRawFile32(InputFilename);
 
-    // 1. 初始化 Ogg 流
-    ogg_stream_state os;
-    ogg_stream_init(&os, rand());
+    OggFileFormat oggff;
+    return oggff.VorbisEncoder(&pcm, OutputFilename);
 
-    // 2. 初始化 Vorbis 编码器
-    vorbis_info vi;
-    vorbis_info_init(&vi);
-    vorbis_encode_init_vbr(&vi, 2, 44100, 0.4); // 立体声, 44.1kHz, 质量 0.4 (0.1~1.0)
+    //FILE* pcm_file = fopen(InputFilename, "rb"); // 16-bit 小端 PCM
+    //FILE* ogg_file = fopen(OutputFilename, "wb");
 
-    vorbis_comment vc;
-    vorbis_comment_init(&vc);
-    vorbis_comment_add_tag(&vc, "ENCODER", "MyOggEncoder");
+    //// 1. 初始化 Ogg 流
+    //ogg_stream_state os;
+    //ogg_stream_init(&os, rand());
 
-    // 3. 生成 Vorbis 头部包
-    vorbis_dsp_state vd;
-    vorbis_block vb;
-    vorbis_analysis_init(&vd, &vi);
-    vorbis_block_init(&vd, &vb);
+    //// 2. 初始化 Vorbis 编码器
+    //vorbis_info vi;
+    //vorbis_info_init(&vi);
+    //vorbis_encode_init_vbr(&vi, 2, 44100, 0.4); // 立体声, 44.1kHz, 质量 0.4 (0.1~1.0)
 
-    ogg_packet header, header_comm, header_code;
-    vorbis_analysis_headerout(&vd, &vc, &header, &header_comm, &header_code);
-    ogg_stream_packetin(&os, &header);
-    ogg_stream_packetin(&os, &header_comm);
-    ogg_stream_packetin(&os, &header_code);
+    //vorbis_comment vc;
+    //vorbis_comment_init(&vc);
+    //vorbis_comment_add_tag(&vc, "ENCODER", "MyOggEncoder");
 
-    // 4. 写入 Ogg 头部
-    ogg_page og;
-    while (ogg_stream_flush(&os, &og)) {
-        fwrite(og.header, 1, og.header_len, ogg_file);
-        fwrite(og.body, 1, og.body_len, ogg_file);
-    }
+    //// 3. 生成 Vorbis 头部包
+    //vorbis_dsp_state vd;
+    //vorbis_block vb;
+    //vorbis_analysis_init(&vd, &vi);
+    //vorbis_block_init(&vd, &vb);
 
-    // 5. 编码 PCM 数据
-    const int BUFFER_SIZE = 4096;
-    int16_t pcm_buffer[BUFFER_SIZE * 2]; // 立体声 16-bit PCM
-    float** vorbis_buffer;
-    int eos = 0;
+    //ogg_packet header, header_comm, header_code;
+    //vorbis_analysis_headerout(&vd, &vc, &header, &header_comm, &header_code);
+    //ogg_stream_packetin(&os, &header);
+    //ogg_stream_packetin(&os, &header_comm);
+    //ogg_stream_packetin(&os, &header_code);
 
-    while (!eos) {
-        size_t read = fread(pcm_buffer, sizeof(int16_t), BUFFER_SIZE * 2, pcm_file);
-        if (read == 0) {
-            vorbis_analysis_wrote(&vd, 0); // 结束流
-            break;
-        }
+    //// 4. 写入 Ogg 头部
+    //ogg_page og;
+    //while (ogg_stream_flush(&os, &og)) {
+    //    fwrite(og.header, 1, og.header_len, ogg_file);
+    //    fwrite(og.body, 1, og.body_len, ogg_file);
+    //}
 
-        // 将 16-bit PCM 转换为浮点 (-1.0 ~ 1.0)
-        vorbis_buffer = vorbis_analysis_buffer(&vd, read / 2);
-        for (size_t i = 0; i < read; i += 2) {
-            vorbis_buffer[0][i / 2] = pcm_buffer[i] / 32768.0f;   // 左声道
-            vorbis_buffer[1][i / 2] = pcm_buffer[i + 1] / 32768.0f; // 右声道
-        }
-        vorbis_analysis_wrote(&vd, read / 2);
+    //// 5. 编码 PCM 数据
+    //const int BUFFER_SIZE = 4096;
+    //int16_t pcm_buffer[BUFFER_SIZE * 2]; // 立体声 16-bit PCM
+    //float** vorbis_buffer;
+    //int eos = 0;
 
-        // 编码并写入 Ogg 页面
-        while (vorbis_analysis_blockout(&vd, &vb) == 1) {
-            vorbis_analysis(&vb, NULL);
-            vorbis_bitrate_addblock(&vb);
+    //while (!eos) {
+    //    size_t read = fread(pcm_buffer, sizeof(int16_t), BUFFER_SIZE * 2, pcm_file);
+    //    if (read == 0) {
+    //        vorbis_analysis_wrote(&vd, 0); // 结束流
+    //        break;
+    //    }
 
-            ogg_packet op;
-            while (vorbis_bitrate_flushpacket(&vd, &op)) {
-                ogg_stream_packetin(&os, &op);
-                while (ogg_stream_pageout(&os, &og)) {
-                    fwrite(og.header, 1, og.header_len, ogg_file);
-                    fwrite(og.body, 1, og.body_len, ogg_file);
-                }
-            }
-        }
-    }
+    //    // 将 16-bit PCM 转换为浮点 (-1.0 ~ 1.0)
+    //    vorbis_buffer = vorbis_analysis_buffer(&vd, read / 2);
+    //    for (size_t i = 0; i < read; i += 2) {
+    //        vorbis_buffer[0][i / 2] = pcm_buffer[i] / 32768.0f;   // 左声道
+    //        vorbis_buffer[1][i / 2] = pcm_buffer[i + 1] / 32768.0f; // 右声道
+    //    }
+    //    vorbis_analysis_wrote(&vd, read / 2);
 
-    // 6. 清理资源
-    ogg_stream_clear(&os);
-    vorbis_block_clear(&vb);
-    vorbis_dsp_clear(&vd);
-    vorbis_comment_clear(&vc);
-    vorbis_info_clear(&vi);
-    fclose(pcm_file);
-    fclose(ogg_file);
+    //    // 编码并写入 Ogg 页面
+    //    while (vorbis_analysis_blockout(&vd, &vb) == 1) {
+    //        vorbis_analysis(&vb, NULL);
+    //        vorbis_bitrate_addblock(&vb);
+
+    //        ogg_packet op;
+    //        while (vorbis_bitrate_flushpacket(&vd, &op)) {
+    //            ogg_stream_packetin(&os, &op);
+    //            while (ogg_stream_pageout(&os, &og)) {
+    //                fwrite(og.header, 1, og.header_len, ogg_file);
+    //                fwrite(og.body, 1, og.body_len, ogg_file);
+    //            }
+    //        }
+    //    }
+    //}
+
+    //// 6. 清理资源
+    //ogg_stream_clear(&os);
+    //vorbis_block_clear(&vb);
+    //vorbis_dsp_clear(&vd);
+    //vorbis_comment_clear(&vc);
+    //vorbis_info_clear(&vi);
+    //fclose(pcm_file);
+    //fclose(ogg_file);
     return 0;
 }
