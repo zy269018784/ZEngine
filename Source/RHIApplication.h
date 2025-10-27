@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "ES32RHI.h"
-#define USE_RHI_VULKAN 0
+#define USE_RHI_VULKAN 1
 #if USE_RHI_VULKAN
 #include <VulkanRHI.h>
 #endif

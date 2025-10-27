@@ -28,6 +28,7 @@ ZEngine::~ZEngine()
 bool HasExtension(const std::filesystem::path& filePath, const std::string& targetExt);
 void ZEngine::Run(int argc, char* argv[])
 {	
+#if 0
 	//ImageFile* img = ImageFile::Read("3.webp");
 	//std::cout << "write " << std::endl;
 	//img->Write("4.jpg");
@@ -66,7 +67,7 @@ void ZEngine::Run(int argc, char* argv[])
 
 	Player = new SFMLAudioPlayer(outfile);
 	Player->Play();
-
+#endif
 	RHIApplicationScene App(((GLFWWidnow *)Window)->GetHandle());
 	App.Run();
 	delete Window;
