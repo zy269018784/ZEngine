@@ -81,7 +81,8 @@
 		Image (lv_image)
 		Image Button (lv_imagebutton)
 		Keyboard (lv_keyboard)
-		Label (lv_label)
+		Label (lv_label)	
+			lv_label_set_text_static
 		LED (lv_led)
 		Line (lv_line)
 		List (lv_list)

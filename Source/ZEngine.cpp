@@ -4,8 +4,10 @@
 #include "Window/SFMLWindow.h"
 #include "Window/GLFWWidnow.h"
 #include "Window/SDLWindow.h"
+#include "Window/LVGLWindow.h"
 #include "MultiMedia/ImageFile/ImageFile.h"
 #include "MultiMedia/AudioFile/AudioFile.h"
+void LVGLDemos();
 
 #include <thread>
 #include <iostream>
@@ -13,11 +15,12 @@
 int HelloQML(int argc, char* argv[]);
 ZEngine::ZEngine()
 {
-
+#if 0
 #if USE_RHI_VULKAN
 	Window = new GLFWWidnow(800, 600, "hellow window", GraphicsAPI::Vulkan);
 #else
 	Window = new GLFWWidnow(800, 600, "hellow window", GraphicsAPI::OpenGL460);
+#endif
 #endif
 }
 
@@ -28,6 +31,8 @@ ZEngine::~ZEngine()
 bool HasExtension(const std::filesystem::path& filePath, const std::string& targetExt);
 void ZEngine::Run(int argc, char* argv[])
 {	
+	LVGLDemos();
+
 #if 0
 	//ImageFile* img = ImageFile::Read("3.webp");
 	//std::cout << "write " << std::endl;

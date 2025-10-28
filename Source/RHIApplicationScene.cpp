@@ -174,8 +174,8 @@ void RHIApplicationScene::CreateGraphicsPipeline()
     auto vertShaderCode = ReadFile("Model_vert.spv");
     auto fragShaderCode = ReadFile("Model_frag.spv");
     // 创建Shader
-    VertexShader= pRHI->RHICreateShader(RHIShader::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
-    FragmengShader = pRHI->RHICreateShader(RHIShader::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+    VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+    FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
 #else
     auto vertShaderCode = ReadFile2("UBO_vert.glsl");
     auto fragShaderCode = ReadFile2("UBO_frag.glsl");
@@ -185,8 +185,8 @@ void RHIApplicationScene::CreateGraphicsPipeline()
     // std::cout << p1 << std::endl;
     // std::cout << p2 << std::endl;
      // 创建Shader
-    RHIShader* VertexShader = pRHI->RHICreateShader(RHIShader::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
-    RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShader::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
+    RHIShader* VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
+    RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
 #endif
 
     RHIVertexInputLayout VertexInputLayout;
