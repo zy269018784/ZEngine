@@ -57,7 +57,6 @@ add_executable (${PROJECT_NAME}  ${SRC_LIST})
 
 list(APPEND INCLUDE_PATH ${SRC_PREFIX})
 list(APPEND LIBRARYS ${QT_LIBS}
-					 #MultiMedia 
 					 VulkanRHI
 					 ES32RHI
 					 D3D12RHI)

@@ -1,23 +1,23 @@
 ﻿/*
-	1. Windows安装Node.js
-		Standalone Binray:
-			https://nodejs.org/dist/v22.21.0/node-v22.21.0-win-x64.zip
-		Installer:
-			https://nodejs.org/dist/v22.21.0/node-v22.21.0-x64.msi
+	1. 
+	2. 编译各种
+		2.1 QT
+			set (CMAKE_AUTOMOC ON)
+			set (CMAKE_AUTOUIC ON)
+			set (CMAKE_AUTORCC ON)
+			find_package(Qt6 COMPONENTS Widgets Qml Quick QuickControls2 QuickWidgets REQUIRED)
+			set (QT_LIBS Qt6::Widgets
+						 Qt6::QuickWidgets
+						 Qt6::Quick
+						 Qt6::Qml
+						 Qt6::QuickControls2)
 
-	2. Linux安装Node.js	
-		Standalone Binray:
-			https://nodejs.org/dist/v22.21.0/node-v22.21.0-linux-x64.tar.xz
-
-
-	3. MacOS安装Node.js
-		Standalone Binray:
-			https://nodejs.org/dist/v22.21.0/node-v22.21.0-darwin-x64.tar.gz
-		Installer:
-			https://nodejs.org/dist/v22.21.0/node-v22.21.0.pkg
-	4. Node.js releases
-		https://nodejs.org/en/download/archive/v25.0.0
-		https://nodejs.org/en/download/archive/v24.10.0
-		https://nodejs.org/en/download/archive/v22.21.0
-		https://nodejs.org/en/download/archive/v20.19.5
+		2.2 MFC
+			-DQLEMR_CFG_DLL
+			-D_AFXDLL
+			-DUNICODE -D_UNICODE
+			CMAKE_MFC_FLAG	
+				1	静态链接
+				2	动态链接
+			add_executable(${PROJ_NAME} WIN32 ${SRC_LIST})
 */

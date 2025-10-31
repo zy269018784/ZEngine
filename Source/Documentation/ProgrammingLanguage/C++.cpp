@@ -106,4 +106,94 @@
 				bit_and, bit_or, bit_xor		
 		2.5 适配器 (Adapters)
 		2.6 分配器 (Allocators)
+	3. 面向对象三大特性
+		封装
+		多态
+		继承
+	4. 类
+		4.1 构造函数(Constructor function)
+			Default Constructor
+			Parameterized Constructor
+			Copy Constructor
+			Move Constructor
+			Delegating Constructor
+			Converting Constructor
+				https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1084/cs106l/handouts/180_Conversion_Constructors.pdf
+			Inheriting Constructor
+			constexpr Constructor
+			Explicitly Defaulted Constructor
+			Explicitly Deleted Constructor
+		4.2 构造函数例子
+			Class MyClass
+			{
+			public:	
+				// Default Constructor
+				MyClass();
+
+				// Parameterized Constructor
+				MyClass(int v);
+
+				// Copy Constructor
+				MyClass(const MyClass& other);
+
+				// Move Constructor
+				MyClass(MyClass&& other) noexcept;
+
+				// Delegating Constructor
+				MyClass() : MyClass(0) {}
+			};
+		4.3 构造函数和析构函数调用顺序
+			4.3.1 先构造父类的, 多个父类就按定义顺序构造, 在构造子类. 先析构子类, 在析构父类, 多个父类按定义逆序析构.
+				class Child : public A, public B, public C 
+				{
+				
+				}
+				构造顺序:
+					A constructor
+					B constructor
+					C constructor
+					Child constructor
+				析构顺序:
+					Child deconstructor
+					C deconstructor
+					B deconstructor
+					A deconstructor
+			4.3.2 虚继承
+				4.3.2.1 
+					class VirtualBase
+					class A : virtual public VirtualBase
+					class B : virtual public VirtualBase
+					class Child : public A, public B
+					构造顺序:
+						VirtualBase constructor  // 虚基类最先
+						A constructor
+						B constructor
+						Child constructor
+					析构顺序:
+						Child destructor
+						B destructor
+						A destructor
+						VirtualBase destructor   // 虚基类最后
+				4.3.2.2 混合继承
+					class Base1
+					class Base2
+					class Base3
+				
+
+		4.4 析构函数(Deconstructor function)
+			virual析构函数
+		4.5 析构函数例子
+		4.7
+			Copy Assignment Operator
+			Move Assignment Operator
+		4.8 final specifier
+			类不能被继承
+			虚函数不能被子类override
+		4.9 虚函数和纯虚函数(virtual function && pure virtual function)
+			虚函数
+				virtual void fun();
+			纯虚函数
+				virtual void fun() =0;
+		4.10 虚继承(Virtual Inheritance)
+			菱形继承问题（diamond problem）
 */

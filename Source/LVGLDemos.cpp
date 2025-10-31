@@ -20,16 +20,24 @@ void LVGLDemos()
         allow_dpi_override,
         simulator_mode);
 
+    lv_obj_t* active_screen = lv_screen_active();
 
-    lv_obj_t* label1 = lv_label_create(lv_screen_active());
+    lv_obj_t* label1 = lv_label_create(active_screen);
     lv_label_set_text_static(label1, "label1");
     lv_obj_set_style_text_color(label1, lv_color_hex(0xFF0000), 0);
     lv_obj_set_width(label1, 250);
     lv_obj_set_pos(label1, 300, 0);
 
-    lv_obj_t* label2 = lv_label_create(lv_screen_active());
+    lv_obj_t* label2 = lv_label_create(active_screen);
     lv_label_set_text_static(label2, "label2");
     lv_obj_set_width(label2, 250);
+
+    lv_obj_t* button = lv_button_create(active_screen);
+    lv_obj_set_pos(button, 300, 200);
+
+    lv_obj_t* label3 = lv_label_create(button);
+    lv_label_set_text_static(label2, "button");
+   // lv_obj_set_width(label3, 250);
 
     while (1)
     {
