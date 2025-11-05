@@ -1,12 +1,5 @@
 ﻿/*
-	1. 支持的语言
-		C
-		C++
-		C#
-		Java
-		Fortran
-		Objective-C 
-		Objective-C++
+	1. 
 	2. 编译各种
 		2.1 QT
 			set (CMAKE_AUTOMOC ON)

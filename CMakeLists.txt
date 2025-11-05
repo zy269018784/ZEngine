@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 
 project (ZEngine)
 
+enable_language(C)
+enable_language(CXX)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #[[
@@ -40,9 +43,10 @@ endif ()
 #[[
 	RHI
 #]]
-add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/VulkanRHI VulkanRHI)
-add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/ES32RHI   ES32RHI)
-add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/D3D12RHI  D3D12RHI)
+#add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/VulkanRHI VulkanRHI)
+#add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/ES32RHI   ES32RHI)
+#add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/D3D12RHI  D3D12RHI)
+add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Examples  RHIExamples)
 
 #[[
 	源码
