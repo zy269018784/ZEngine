@@ -100,4 +100,5 @@
 			MV_CC_DestroyHandle				销毁句柄
 			MV_CC_Finalize					反初始化SDK
 		3.2 异步取图及处理
+
 */
