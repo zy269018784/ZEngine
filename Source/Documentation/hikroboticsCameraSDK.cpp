@@ -90,7 +90,7 @@
 	2. 
 		2.1 trigger mode 
 	3. Examples
-		3.1
+		3.1	Hello World
 			MV_CC_Initialize				初始化SDK
 			MV_CC_CreateHandle				创建句柄
 			MV_CC_OpenDevice				打开设备
@@ -99,5 +99,5 @@
 			MV_CC_CloseDevice				关闭设备
 			MV_CC_DestroyHandle				销毁句柄
 			MV_CC_Finalize					反初始化SDK
-
+		3.2 异步取图及处理
 */
