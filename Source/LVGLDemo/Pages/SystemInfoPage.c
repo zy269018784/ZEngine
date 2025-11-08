@@ -1,6 +1,6 @@
-﻿#include "MusicPage.h"
+﻿#include "SystemInfoPage.h"
 
-void CreateMusicPage(MusicPage* Page, lv_obj_t* Parent)
+void CreateSystemInfoPage(SystemInfoPage* Page, lv_obj_t* Parent)
 {
     Page->Parent = Parent;
     /*---------------------------------------------------------------------*/
@@ -18,7 +18,7 @@ void CreateMusicPage(MusicPage* Page, lv_obj_t* Parent)
     /*
           设置背景颜色
       */
-    lv_obj_set_style_bg_color(Page->Handle, lv_color_hex3(0xFF0), 0);
+    lv_obj_set_style_bg_color(Page->Handle, lv_color_hex3(0xF00), 0);
     /*
         设置radius
     */
@@ -88,75 +88,7 @@ void CreateMusicPage(MusicPage* Page, lv_obj_t* Parent)
     /*
         音乐名称标签
     */
-    Page->music_name_label_pos  = (Point2){ 10, 420 - 60 };
-    Page->music_name_label_size = (Point2){ LV_PCT(100), 50 };
-    CreateMusicNameLabel(Page);
-    CreateSingerNameLabel(Page);
+
     /*---------------------------------------------------------------------*/
 }
 
-void CreateMusicNameLabel(MusicPage* Page)
-{
-    Page->music_name_label = lv_label_create(Page->Handle);
-    lv_label_set_text_static(Page->music_name_label, "Don't Be So Serious");
-    /*
-        设置文本居中
-    */
-    lv_obj_set_style_text_align(Page->music_name_label, LV_TEXT_ALIGN_LEFT, 0);
-    /*
-        设置位置和尺寸
-    */
-    lv_obj_set_pos(Page->music_name_label, 10, 420 - 60);
-    lv_obj_set_size(Page->music_name_label, LV_PCT(100), 50);
-    /*
-        设置盒子模型
-    */
-    lv_obj_set_style_pad_all(Page->music_name_label, 0, 0);
-    lv_obj_set_style_border_width(Page->music_name_label, 0, 0);
-    lv_obj_set_style_margin_all(Page->music_name_label, 0, 0);
-    /*
-      设置背景颜色
-    */
-    lv_obj_set_style_bg_color(Page->music_name_label, lv_color_hex3(0xFFF), 0);
-    /*
-        设置radius
-    */
-    lv_obj_set_style_radius(Page->music_name_label, 0, 0);
-    /*
-        关闭滚动条
-    */
-    lv_obj_clear_flag(Page->music_name_label, LV_OBJ_FLAG_SCROLLABLE);
-}
-
-void CreateSingerNameLabel(MusicPage* Page)
-{
-    Page->singer_name_label = lv_label_create(Page->Handle);
-    lv_label_set_text_static(Page->singer_name_label, "Low Roar");
-    /*
-        设置文本居中
-    */
-    lv_obj_set_style_text_align(Page->singer_name_label, LV_TEXT_ALIGN_LEFT, 0);
-    /*
-        设置位置和尺寸
-    */
-    lv_obj_set_pos(Page->singer_name_label, 10, 420 - 40);
-    lv_obj_set_size(Page->singer_name_label, LV_PCT(100), 50);
-    /*
-        设置盒子模型
-    */
-    lv_obj_set_style_pad_all(Page->singer_name_label, 0, 0);
-    lv_obj_set_style_border_width(Page->singer_name_label, 0, 0);
-    lv_obj_set_style_margin_all(Page->singer_name_label, 0, 0);
-    /*
-      设置背景颜色
-    */
-    lv_obj_set_style_bg_color(Page->singer_name_label, lv_color_hex3(0xFFF), 0);
-    /*
-        设置radius
-    */
-    lv_obj_set_style_radius(Page->singer_name_label, 0, 0);
-    /*
-        关闭滚动条
-    */
-    lv_obj_clear_flag(Page->singer_name_label, LV_OBJ_FLAG_SCROLLABLE);
-}

@@ -2,7 +2,7 @@
 #include <lvgl/lvgl.h>
 #include "LVGLDemo/Point2.h"
 
-typedef struct MusicPage
+typedef struct ThemePage
 {
 	lv_obj_t* Parent;
 	lv_obj_t* Handle;
@@ -28,15 +28,13 @@ typedef struct MusicPage
 	lv_obj_t* progress_bar;
 	Point2    progress_bar_size;
 	Point2    progress_bar_pos;
-}MusicPage;
+}ThemePage;
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-	void CreateMusicPage(MusicPage* Page, lv_obj_t* Parent);
-	void CreateMusicNameLabel(MusicPage* Page);
-	void CreateSingerNameLabel(MusicPage* Page);
+	void CreateThemePage(ThemePage* Page, lv_obj_t* Parent);
 #ifdef __cplusplus
 }
 #endif

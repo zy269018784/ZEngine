@@ -4,6 +4,8 @@
 #include <lvgl/src/drivers/windows/lv_windows_display.h>
 #include "Pages/ClockPage.h"
 #include "Pages/MusicPage.h"
+#include "Pages/SystemInfoPage.h"
+#include "Pages/ThemePage.h"
 
 #include "Point2.h"
 
@@ -43,16 +45,13 @@ typedef struct Application
 	lv_obj_t* ButtonSetting;
 
 	Theme CurrentTheme;
-
+	ThemePage PageTheme;
+	SystemInfoPage PageSystemInfo;
 	ClockPage PageClock;
 	MusicPage PageMusic;
 	int CurrentPage;
 }Application;
 
-struct ThemePage
-{
-	lv_color_t main_font_color;
-};
 
 #ifdef __cplusplus
 extern "C"
