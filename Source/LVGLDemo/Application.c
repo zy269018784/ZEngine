@@ -96,12 +96,15 @@ void ShowPage(struct Application* App, int PageNo)
     {
     case MusicPageNum:
         lv_obj_clear_flag(App->PageMusic.Handle, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_parent(App->RowLayout, App->PageMusic.Handle);
         break;
     case ClockPageNum:
         lv_obj_clear_flag(App->PageClock.Handle, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_parent(App->RowLayout, App->PageClock.Handle);
         break;
     case SystemInfoPageNum:
         lv_obj_clear_flag(App->PageSystemInfo.Handle, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_parent(App->RowLayout, App->PageSystemInfo.Handle);
         break;
     default:
         break;
@@ -110,7 +113,7 @@ void ShowPage(struct Application* App, int PageNo)
 
 void Run(Application* App)
 {
-    ShowPage(App, MusicPageNum);
+    ShowPage(App, SystemInfoPageNum);
     //ClockTimeUpState(&App->PageClock);
     //ClockDefaultState(&App->PageClock);
     //ClockStartState(&App->PageClock);
