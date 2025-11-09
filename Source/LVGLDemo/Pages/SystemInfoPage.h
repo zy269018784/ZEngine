@@ -6,28 +6,20 @@ typedef struct SystemInfoPage
 {
 	lv_obj_t* Parent;
 	lv_obj_t* Handle;
-	/*
-		控件
-			上一曲按钮
-			下一曲按钮
-			播放按钮
-			进度条
-	*/
-	lv_obj_t* prev_button;
-	lv_obj_t* next_button;
-	lv_obj_t* play_button;
 
-	lv_obj_t* music_name_label;
-	Point2    music_name_label_size;
-	Point2    music_name_label_pos;
+	lv_obj_t* CPUUsage;
+	lv_obj_t* CPUTemp;
+	lv_obj_t* CPUFreq;
+	lv_obj_t* MemUsage;
+	lv_obj_t* UpSpeed;
+	lv_obj_t* DownSpeed;
 
-	lv_obj_t* singer_name_label;
-	Point2    singer_name_label_size;
-	Point2    singer_name_label_pos;	
-
-	lv_obj_t* progress_bar;
-	Point2    progress_bar_size;
-	Point2    progress_bar_pos;
+	lv_obj_t* CPUUsage_2;
+	lv_obj_t* CPUTemp_2;
+	lv_obj_t* CPUFreq_2;
+	lv_obj_t* MemUsage_2;
+	lv_obj_t* UpSpeed_2;
+	lv_obj_t* DownSpeed_2;				
 }SystemInfoPage;
 
 #ifdef __cplusplus

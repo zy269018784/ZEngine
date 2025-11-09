@@ -110,7 +110,7 @@ void ShowPage(struct Application* App, int PageNo)
 
 void Run(Application* App)
 {
-    ShowPage(App, SystemInfoPageNum);
+    ShowPage(App, MusicPageNum);
     //ClockTimeUpState(&App->PageClock);
     //ClockDefaultState(&App->PageClock);
     //ClockStartState(&App->PageClock);
