@@ -135,6 +135,9 @@
 	14. Objects
 		lv_obj_set_style_text_color				设置文本颜色
 
-	14. Examples
+	15. Examples
+
+	16. lv_obj_t
+
 
 */
