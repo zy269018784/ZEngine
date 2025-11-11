@@ -29,8 +29,6 @@ ZEngine::~ZEngine()
 bool HasExtension(const std::filesystem::path& filePath, const std::string& targetExt);
 void ZEngine::Run(int argc, char* argv[])
 {	
-	//LVGLDemos();
-
 #if 0
 	//ImageFile* img = ImageFile::Read("3.webp");
 	//std::cout << "write " << std::endl;

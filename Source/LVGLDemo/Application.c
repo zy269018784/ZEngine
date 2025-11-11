@@ -75,10 +75,11 @@ struct Application* CreateApplication()
     lv_obj_set_style_bg_color(App->ButtonSetting, App->CurrentTheme.sub_color, 0);
     lv_obj_clear_flag(App->ButtonSetting, LV_OBJ_FLAG_SCROLLABLE);
 
-    CreateThemePage(&App->PageTheme, ActiveScreen);
+    //CreateThemePage(&App->PageTheme, ActiveScreen);
     CreateSystemInfoPage(&App->PageSystemInfo, ActiveScreen);
     CreateClockPage(&App->PageClock, ActiveScreen);
     CreateMusicPage(&App->PageMusic, ActiveScreen);
+    CreateSettingsPage(&App->PageSettings, ActiveScreen);
 
     lv_obj_set_parent(App->RowLayout, App->PageClock.Handle);
 
@@ -87,21 +88,40 @@ struct Application* CreateApplication()
 
 void ShowPage(struct Application* App, int PageNo)
 {
-    lv_obj_add_flag(App->PageTheme.Handle,          LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(App->RowLayout, LV_OBJ_FLAG_HIDDEN);
+    //lv_obj_add_flag(App->PageTheme.Handle,          LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(App->PageSystemInfo.Handle,     LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(App->PageMusic.Handle,          LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(App->PageClock.Handle,          LV_OBJ_FLAG_HIDDEN);
-
+    lv_obj_add_flag(App->PageSettings.Handle,       LV_OBJ_FLAG_HIDDEN);
+    lv_obj_set_style_bg_color(App->ButtonHomePage,      App->CurrentTheme.sub_font_color, 0);
+    lv_obj_set_style_bg_color(App->ButtonMusic,         App->CurrentTheme.sub_font_color, 0);
+    lv_obj_set_style_bg_color(App->ButtonClock,         App->CurrentTheme.sub_font_color, 0);
+    lv_obj_set_style_bg_color(App->ButtonSystemInfo,    App->CurrentTheme.sub_font_color, 0);
+    lv_obj_set_style_bg_color(App->ButtonSetting,       App->CurrentTheme.sub_font_color, 0);
     switch (PageNo)
     {
     case MusicPageNum:
         lv_obj_clear_flag(App->PageMusic.Handle, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_parent(App->RowLayout, App->PageMusic.Handle);
+        lv_obj_set_style_bg_color(App->ButtonMusic, App->CurrentTheme.main_font_color, 0);
         break;
     case ClockPageNum:
         lv_obj_clear_flag(App->PageClock.Handle, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_parent(App->RowLayout, App->PageClock.Handle);
+        lv_obj_set_style_bg_color(App->ButtonClock, App->CurrentTheme.main_font_color, 0);
         break;
     case SystemInfoPageNum:
         lv_obj_clear_flag(App->PageSystemInfo.Handle, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_parent(App->RowLayout, App->PageSystemInfo.Handle);   
+        lv_obj_set_style_bg_color(App->ButtonSystemInfo, App->CurrentTheme.main_font_color, 0);
+     \
+         break;
+    case SettingPageNum:
+        lv_obj_clear_flag(App->PageSettings.Handle, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(App->RowLayout, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_parent(App->RowLayout, App->PageSettings.Handle);
+        lv_obj_set_style_bg_color(App->ButtonSetting, App->CurrentTheme.main_font_color, 0);
         break;
     default:
         break;
@@ -110,7 +130,8 @@ void ShowPage(struct Application* App, int PageNo)
 
 void Run(Application* App)
 {
-    ShowPage(App, SystemInfoPageNum);
+    ShowPage(App, SettingPageNum);
+    ShowSettingPage(&App->PageSettings, ThemePageNum);
     //ClockTimeUpState(&App->PageClock);
     //ClockDefaultState(&App->PageClock);
     //ClockStartState(&App->PageClock);

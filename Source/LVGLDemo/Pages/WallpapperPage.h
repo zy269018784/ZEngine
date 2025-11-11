@@ -2,17 +2,17 @@
 #include <lvgl/lvgl.h>
 #include "LVGLDemo/Point2.h"
 
-typedef struct ThemePage
+typedef struct WallpapperPage
 {
 	lv_obj_t* Parent;
 	lv_obj_t* Handle;
-}ThemePage;
+}WallpapperPage;
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-	void CreateThemePage(ThemePage* Page, lv_obj_t* Parent);
+	void CreateWallpapperPage(WallpapperPage* Page, lv_obj_t* Parent);
 #ifdef __cplusplus
 }
 #endif

@@ -6,6 +6,7 @@
 #include "Pages/MusicPage.h"
 #include "Pages/SystemInfoPage.h"
 #include "Pages/ThemePage.h"
+#include "Pages/SettingsPage.h"
 
 #include "Point2.h"
 
@@ -45,10 +46,12 @@ typedef struct Application
 	lv_obj_t* ButtonSetting;
 
 	Theme CurrentTheme;
+
 	ThemePage PageTheme;
 	SystemInfoPage PageSystemInfo;
 	ClockPage PageClock;
 	MusicPage PageMusic;
+	SettingsPage PageSettings;
 	int CurrentPage;
 }Application;
 
