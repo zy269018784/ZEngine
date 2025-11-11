@@ -115,7 +115,8 @@ void ShowPage(struct Application* App, int PageNo)
         lv_obj_clear_flag(App->PageSystemInfo.Handle, LV_OBJ_FLAG_HIDDEN);
         lv_obj_set_parent(App->RowLayout, App->PageSystemInfo.Handle);   
         lv_obj_set_style_bg_color(App->ButtonSystemInfo, App->CurrentTheme.main_font_color, 0);
-        break;
+     \
+         break;
     case SettingPageNum:
         lv_obj_clear_flag(App->PageSettings.Handle, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(App->RowLayout, LV_OBJ_FLAG_HIDDEN);
