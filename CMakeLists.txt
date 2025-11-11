@@ -144,6 +144,14 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/GUI/lvgl/9.4.0/msvc2022_64/include/)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/GUI/lvgl/9.4.0/msvc2022_64/lib/)
 	list (APPEND LIBRARYS		LvglWindows)
+
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/HIK/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/HIK/lib/)
+	list (APPEND LIBRARYS		MvCameraControl)
+
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/MindVision/include/)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/MindVision/lib/)
+	list (APPEND LIBRARYS		MVCAMSDK_X64)
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
 
 endif()
