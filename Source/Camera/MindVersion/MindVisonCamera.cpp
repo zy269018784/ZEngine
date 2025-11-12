@@ -2,7 +2,7 @@
 #include <stdio.h>
 MindVisonCamera::MindVisonCamera()
 {
-	
+    CameraSetBlackLevel
 }
 
 MindVisonCamera::~MindVisonCamera()

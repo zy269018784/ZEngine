@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿
+#pragma once
 #include <Windows.h>
 #include "CameraApi.h"
 
@@ -28,6 +29,8 @@ public:
 	CameraSdkStatus CameraSnapJpegToFile(char const* lpszFileName, unsigned char byQuality, unsigned int wTimes);
 
 	CameraSdkStatus CameraSnapToBuffer(tSdkFrameHead* pFrameInfo, unsigned char** pbyBuffer, unsigned int wTimes);
+
+	CameraSdkStatus CameraSetBlackLevel(int iBlackLevel);
 private:
 	CameraHandle Handle = -1; 
 };
