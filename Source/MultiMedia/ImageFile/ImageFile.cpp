@@ -66,6 +66,10 @@ ImageFile::ImageFile(Vector2u InResolution, PixelFormat InFormat, void* InPixels
 	{
 		switch (InFormat)
 		{
+		case ImageFile::PixelFormat::PF_R8_UINT:
+			Count *= 1;
+			Pixels = (void*)(new std::uint8_t[Count]);
+			break;
 		case ImageFile::PixelFormat::PF_R8G8B8_UINT:
 			Count *= 3;
 			Pixels = (void*)(new std::uint8_t[Count]);
@@ -127,6 +131,9 @@ int ImageFile::NChannels() const
 	int N = 0;
 	switch (Format)
 	{
+	case ImageFile::PixelFormat::PF_R8_UINT:
+		N = 1;
+		break;
 	case ImageFile::PixelFormat::PF_R8G8B8_UINT:
 	case ImageFile::PixelFormat::PF_R16G16B16_HALF:
 	case ImageFile::PixelFormat::PF_R32G32B32_FLOAT:

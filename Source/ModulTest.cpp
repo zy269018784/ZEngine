@@ -4,7 +4,8 @@ void LVGLDemos();
 int MindVisionMain(int argc, char** argv);
 int ModuleTest(int argc, char** argv);
 int MultiMediaTest(int argc, char** argv);
+int FreetypeTest(int argc, char** argv);
 int ModuleTest(int argc, char** argv)
 {
-	return MultiMediaTest(argc, argv);
+	return FreetypeTest(argc, argv);
 }

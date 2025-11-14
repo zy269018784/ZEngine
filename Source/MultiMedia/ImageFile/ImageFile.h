@@ -7,6 +7,8 @@ class ImageFile
 public:
 	enum class PixelFormat : std::uint32_t
 	{
+        PF_R8_UINT,			        //   8 bit unsigned byte		R
+
         PF_R8G8B8_UINT,			//   8 bit unsigned byte		R	G	B
         PF_R16G16B16_HALF,		//   16 bit float				R	G	B
         PF_R32G32B32_FLOAT,		//   32 bit float				R	G	B

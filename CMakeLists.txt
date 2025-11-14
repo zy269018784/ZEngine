@@ -152,6 +152,10 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/MindVision/include/)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/MindVision/lib/)
 	list (APPEND LIBRARYS		MVCAMSDK_X64)
+
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Windows/Font/freetype/2.14.1/msvc2022_64/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Font/freetype/2.14.1/msvc2022_64/lib/)
+	list (APPEND LIBRARYS		freetype)
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
 
 endif()
