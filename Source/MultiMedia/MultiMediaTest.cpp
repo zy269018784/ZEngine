@@ -19,6 +19,15 @@ int MultiMediaTest(int argc, char** argv)
 	return 0;
 }	
 
+int MultiMediaTest2(int argc, char** argv)
+{
+	auto f1 = ImageFile::Read(argv[1]);
+	auto f2 = ImageFile::Read(argv[2]);
+	f1->DrawImage({0, 0}, *f2);
+	f1->Write(argv[3]);
+	return 0;
+}
+
 int FreetypeTest(int argc, char** argv)
 {
 	// FreeType
@@ -33,7 +42,7 @@ int FreetypeTest(int argc, char** argv)
 
 
 	// find path to font
-	std::string font_name = "fonts/Antonio-Bold.ttf";
+	std::string font_name = "fonts/OCRAEXT.ttf";
 	if (font_name.empty())
 	{
 		std::cout << "ERROR::FREETYPE: Failed to load font_name" << std::endl;

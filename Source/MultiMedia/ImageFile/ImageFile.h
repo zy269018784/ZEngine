@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Type/Vector.h"
+#include "Type/Rect.h"
 #include <cstdint>
 #include <string>
 class ImageFile
@@ -31,11 +32,20 @@ public:
 public:
     int NChannels() const;
     ImageFile::PixelFormat GetFormat() const;
+    Vector2u GetResolution() const;
     float GetChannel(Vector2i P, int Channel, WrapMode WrapModeU = WrapMode::Clamp, WrapMode WrapModeV = WrapMode::Clamp) const;
     bool RemapPixelCoords(Vector2i* P, WrapMode WrapModeU, WrapMode WrapModeV) const;
-	bool Write(std::string name) const;
+public:
+    void DrawImage(Vector2u P, const ImageFile& Image);
+    void DrawEllipse(Rectu Rect);
+    void DrawLine(const Vector2u& p1, const Vector2u& p2);
+    void DrawLine(int x1, int y1, int x2, int y2);
+    void DrawRect(const Rectu& rectangle);
+    void DrawText(const Vector2u& position, const std::string& text);
 public:
 	static ImageFile* Read(std::string filename);
+    bool Write(std::string name) const;
+private:
     static ImageFile* ReadPNG(const std::string name);
     static ImageFile* ReadJPG(const std::string name);
     static ImageFile* ReadTGA(const std::string name);

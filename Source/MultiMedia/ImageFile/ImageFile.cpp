@@ -156,6 +156,11 @@ ImageFile::PixelFormat ImageFile::GetFormat() const
 	return Format;
 }
 
+Vector2u ImageFile::GetResolution() const
+{
+	return Resolution;
+}
+
 float ImageFile::GetChannel(Vector2i P, int Channel, WrapMode WrapModeU, WrapMode WrapModeV) const
 {
 	float V;
@@ -718,3 +723,41 @@ bool ImageFile::WriteSVG(std::string name) const
 
 
 
+void ImageFile::DrawImage(Vector2u P, const ImageFile& Image)
+{
+	uint8_t* Pixel8 = (uint8_t*)Pixels;
+	for (int row = 0; row < Image.GetResolution().Y; row++) {
+		for (int col = 0; col < Image.GetResolution().X; col++) {
+			for (int c = 0; c < NChannels(); ++c) {
+				int row2 = P.Y + row;
+				int col2 = P.X + col;
+				Pixel8[NChannels() * (row2 * Resolution.X + col2) + c] = Image.GetChannel({ col, row }, c);
+			}
+		}
+	}
+}
+
+void ImageFile::DrawEllipse(Rectu Rect)
+{
+
+}
+
+void ImageFile::DrawLine(const Vector2u& p1, const Vector2u& p2)
+{
+
+}
+
+void ImageFile::DrawLine(int x1, int y1, int x2, int y2)
+{
+
+}
+
+void ImageFile::DrawRect(const Rectu& rectangle)
+{
+
+}
+
+void ImageFile::DrawText(const Vector2u& position, const std::string& text)
+{
+
+}
