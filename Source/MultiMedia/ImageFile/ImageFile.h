@@ -28,6 +28,7 @@ public:
     virtual ~ImageFile();
 public:
     int NChannels() const;
+    ImageFile::PixelFormat GetFormat() const;
     float GetChannel(Vector2i P, int Channel, WrapMode WrapModeU = WrapMode::Clamp, WrapMode WrapModeV = WrapMode::Clamp) const;
     bool RemapPixelCoords(Vector2i* P, WrapMode WrapModeU, WrapMode WrapModeV) const;
 	bool Write(std::string name) const;

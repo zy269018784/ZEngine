@@ -144,6 +144,11 @@ int ImageFile::NChannels() const
 	return N;
 }
 
+ImageFile::PixelFormat ImageFile::GetFormat() const
+{
+	return Format;
+}
+
 float ImageFile::GetChannel(Vector2i P, int Channel, WrapMode WrapModeU, WrapMode WrapModeV) const
 {
 	float V;
@@ -481,7 +486,10 @@ bool ImageFile::WritePNG(std::string filename) const
 			}
 		}
 	}
-	stbi_write_png(filename.c_str(), Resolution.X, Resolution.Y, NChannels(), Pixel8.get(), 0);
+	int stride_bytes = Resolution.X * NChannels();
+
+	stbi_write_png(filename.c_str(), Resolution.X, Resolution.Y, NChannels(), Pixel8.get(), stride_bytes);
+
 	return true;
 #else
 	return fpng::fpng_encode_image_to_file(filename.c_str(), p8, resolution.x, Resolution.Y, channelNameSize);
