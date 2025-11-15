@@ -1,5 +1,5 @@
 ﻿#include "Model.h"
-
+#include <list>
 
 
 #include <iostream>

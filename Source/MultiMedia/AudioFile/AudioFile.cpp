@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <iostream>
 #include <stdio.h>
+#include <algorithm>
 
 #include <fdk-aac/aacenc_lib.h>
 #include <opus.h>
