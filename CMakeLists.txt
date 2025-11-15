@@ -43,10 +43,12 @@ endif ()
 #[[
 	RHI
 #]]
-#add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/VulkanRHI VulkanRHI)
-#add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/ES32RHI   ES32RHI)
-#add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/D3D12RHI  D3D12RHI)
-add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Examples  RHIExamples)
+add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/VulkanRHI VulkanRHI)
+add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/ES32RHI   ES32RHI)
+if (CMAKE_SYSTEM_NAME STREQUAL Windows)
+	add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Source/D3D12RHI  D3D12RHI)
+endif ()
+#add_subdirectory (${PROJECT_SOURCE_DIR}/../../Modules/RHI/Examples  RHIExamples)
 
 #[[
 	源码
@@ -162,3 +164,10 @@ endif()
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
+if (CMAKE_SYSTEM_NAME STREQUAL Windows)
+	target_compile_definitions (${PROJECT_NAME} SYSTEM_IS_WINDOWS)
+elif (CMAKE_SYSTEM_NAME STREQUAL Linux)
+	target_compile_definitions (${PROJECT_NAME} SYSTEM_IS_LINUX)
+elif (CMAKE_SYSTEM_NAME STREQUAL Android)
+	target_compile_definitions (${PROJECT_NAME} SYSTEM_IS_ANDROID)
+endif ()
