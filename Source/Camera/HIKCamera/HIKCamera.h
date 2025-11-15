@@ -1,4 +1,5 @@
 ﻿#pragma once
+#ifdef SYSTEM_IS_WINDOWS
 #include "MvCameraControl.h"
 
 class HIKCamera
@@ -31,3 +32,4 @@ public:
 private:
 	void* Handle;
 };
+#endif

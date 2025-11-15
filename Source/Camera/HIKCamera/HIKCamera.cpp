@@ -1,4 +1,5 @@
-﻿#include "MvCameraControl.h"
+﻿#ifdef SYSTEM_IS_WINDOWS
+#include "MvCameraControl.h"
 #include "HIKCamera.h"
 #include <stdio.h>
 HIKCamera::HIKCamera(const MV_CC_DEVICE_INFO* pDeviceInfo)
@@ -130,3 +131,4 @@ int HIKCamera::MV_CC_SetCommandValue(const char* strKey)
 {
     return ::MV_CC_SetCommandValue(Handle, strKey);
 }
+#endif

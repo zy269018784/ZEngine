@@ -1,4 +1,5 @@
-﻿#include "MindVisionSDK.h"
+﻿#ifdef SYSTEM_IS_WINDOWS
+#include "MindVisionSDK.h"
 #include "CameraApi.h"
 #include <stdio.h>
 MindVisionSDK::MindVisionSDK()
@@ -24,3 +25,4 @@ int MindVisionSDK::CameraEnumerateDeviceEx()
 {
 	return ::CameraEnumerateDeviceEx();
 }
+#endif

@@ -1,4 +1,5 @@
-﻿#include "MindVisonCamera.h"
+﻿#ifdef SYSTEM_IS_WINDOWS
+#include "MindVisonCamera.h"
 #include <stdio.h>
 MindVisonCamera::MindVisonCamera()
 {
@@ -100,3 +101,4 @@ CameraSdkStatus MindVisonCamera::CameraSnapToBuffer(
 {
     return ::CameraSnapToBuffer(Handle, pFrameInfo, pbyBuffer, wTimes);
 }
+#endif

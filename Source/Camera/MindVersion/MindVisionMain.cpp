@@ -1,4 +1,5 @@
-﻿#include "MindVisonCamera.h"
+﻿#ifdef SYSTEM_IS_WINDOWS
+#include "MindVisonCamera.h"
 #include "MindVisionSDK.h"
 #include <stdio.h>
 #include <vector>
@@ -149,3 +150,5 @@ int MindVisionMain(int argc, char** argv)
 
     return 0;
 }
+
+#endif

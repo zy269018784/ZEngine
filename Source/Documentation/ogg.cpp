@@ -58,4 +58,3 @@
 		ogg_stream_packetin
 		ogg_stream_pageout
 */
-ogg_stream_state;

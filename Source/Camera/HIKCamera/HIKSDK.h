@@ -1,4 +1,5 @@
 ﻿#pragma once
+#ifdef SYSTEM_IS_WINDOWS
 #include "MvCameraControl.h"
 
 class HIKSDK
@@ -9,3 +10,5 @@ public:
 public:
 	int MV_CC_EnumDevices(unsigned int nTLayerType, MV_CC_DEVICE_INFO_LIST* pstDevList);
 };
+
+#endif

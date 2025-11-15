@@ -1,4 +1,5 @@
-﻿#include "HIKCamera.h"
+﻿#ifdef SYSTEM_IS_WINDOWS
+#include "HIKCamera.h"
 #include "HIKSDK.h"
 #include <stdio.h>
 #include <vector>
@@ -48,3 +49,4 @@ int HIKCameraMain(int argc, char** argv)
 
     return 0;
 }
+#endif

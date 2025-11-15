@@ -1,5 +1,5 @@
-﻿
-#pragma once
+﻿#pragma once
+#ifdef SYSTEM_IS_WINDOWS
 #include <Windows.h>
 #include "CameraApi.h"
 
@@ -34,3 +34,4 @@ public:
 private:
 	CameraHandle Handle = -1; 
 };
+#endif

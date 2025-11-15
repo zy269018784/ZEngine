@@ -82,7 +82,6 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Windows/Audio/SoLoud/20200207/vc43/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/Audio/SoLoud/20200207/vc43/lib)
 
-
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Windows/File\ Format/3D/Assimp/6.0.2/vc143/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Windows/File\ Format/3D/Assimp/6.0.2/vc143/lib)
 	list(APPEND LIBRARYS assimp-vc143-mt)
@@ -159,11 +158,86 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Windows/Font/freetype/2.14.1/msvc2022_64/lib/)
 	list (APPEND LIBRARYS		freetype)
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
+	list(APPEND LIBRARYS sfml-main sfml-system sfml-audio sfml-window sfml-graphics)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/irrKlang/1.6/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/irrKlang/1.6/lib)
+	list(APPEND LIBRARYS irrKlang)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/assimp/6.0.2/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/assimp/6.0.2/lib)
+	list(APPEND LIBRARYS libassimp)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/libtwolame/0.4.0/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/libtwolame/0.4.0/lib)
+	list(APPEND LIBRARYS libtwolame)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/curl/8.11/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/curl/8.11/lib)
+	list(APPEND LIBRARYS libcurl)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/FLAC/1.5.0/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/FLAC/1.5.0/lib)
+	list(APPEND LIBRARYS libFLAC++)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/giflib/5.2.2/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/giflib/5.2.2/lib)
+	list(APPEND LIBRARYS libtwolame)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/ogg/1.3.6/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/ogg/1.3.6/lib)
+	list(APPEND LIBRARYS libogg)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/boost/1.84/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/boost/1.84/lib)
+	list(APPEND LIBRARYS libboost_json libboost_exception libboost_thread)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/fdk-acc/2.0.3/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/fdk-acc/2.0.3/lib)
+	list(APPEND LIBRARYS libfdk-aac)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/freetype/2.14.1/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/freetype/2.14.1/lib)
+	list(APPEND LIBRARYS libfreetype)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Imath/3.2.2/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Imath/3.2.2/lib)
+	list(APPEND LIBRARYS libImath-3_2)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/libmp3lame/3.100/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/libmp3lame/3.100/lib)
+	list(APPEND LIBRARYS libmp3lame)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/libvorbis/19/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/libvorbis/19/lib)
+	list(APPEND LIBRARYS libtwolame)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/OpenEXR/3.2.1/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/OpenEXR/3.2.1/lib)
+	list(APPEND LIBRARYS libIex-3_2 libImath-3_1 libIlmThread-3_2 libOpenEXRCore-3_2 libOpenEXRUtil-3_2)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SDL/3.2.24/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SDL/3.2.24/lib)
+	list(APPEND LIBRARYS libSDL3)	
 
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/opus/1.5.2/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/opus/1.5.2/lib)
+	list(APPEND LIBRARYS libopus)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/webp/1.6.0/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/webp/1.6.0/lib)
+	list(APPEND LIBRARYS libwebp libwebpdecoder libwebpdemux libwebpmux)	
+	
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/glfw/3.3.10/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/glfw/3.3.10/lib)
+	list(APPEND LIBRARYS libglfw3)	
 endif()
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
+
 if (CMAKE_SYSTEM_NAME STREQUAL Windows)
 	target_compile_definitions (${PROJECT_NAME} SYSTEM_IS_WINDOWS)
 elif (CMAKE_SYSTEM_NAME STREQUAL Linux)

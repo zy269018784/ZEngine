@@ -1,4 +1,5 @@
-﻿#include "MvCameraControl.h"
+﻿#ifdef SYSTEM_IS_WINDOWS
+#include "MvCameraControl.h"
 #include "HIKSDK.h"
 #include <stdio.h>
 HIKSDK::HIKSDK()
@@ -23,3 +24,5 @@ int HIKSDK::MV_CC_EnumDevices(unsigned int nTLayerType, MV_CC_DEVICE_INFO_LIST* 
 {
     return ::MV_CC_EnumDevices(nTLayerType, pstDevList);
 }
+
+#endif
