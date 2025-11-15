@@ -24,10 +24,9 @@
 #define GLFW_INCLUDE_VULKAN
 #endif
 #include <GLFW/glfw3.h>
+#ifdef SYSTEM_IS_WINDOWS
 #include <GLFW/glfw3native.h>
-
-
-
+#endif
 
 class RHIApplication
 {
