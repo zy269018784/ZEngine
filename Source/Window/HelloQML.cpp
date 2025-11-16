@@ -1,7 +1,7 @@
 ﻿#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-int HelloQML(int argc, char* argv[])
+int HelloQML(int argc, char** argv)
 {
     QGuiApplication app(argc, argv);
 

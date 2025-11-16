@@ -10,7 +10,7 @@
 #include <thread>
 #include <iostream>
 
-int HelloQML(int argc, char* argv[]);
+int HelloQML(int argc, char** argv);
 ZEngine::ZEngine()
 {
 #if 1
@@ -27,7 +27,7 @@ ZEngine::~ZEngine()
 	delete Player;
 }
 bool HasExtension(const std::filesystem::path& filePath, const std::string& targetExt);
-void ZEngine::Run(int argc, char* argv[])
+void ZEngine::Run(int argc, char** argv)
 {	
 #if 0
 	//ImageFile* img = ImageFile::Read("3.webp");

@@ -8,7 +8,7 @@ public:
 	ZEngine();
 	virtual ~ZEngine();
 public:
-	void Run(int argc, char* argv[]);
+	void Run(int argc, char** argv);
 private:
 	IAudioPlayer* Player = nullptr;
 	GLFWWidnow* Window = nullptr;

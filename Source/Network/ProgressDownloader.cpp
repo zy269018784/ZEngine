@@ -324,7 +324,7 @@ private:
         return { host, port, target };
     }
 };
-int ProgressDownloadermain(int argc, char* argv[]) {
+int ProgressDownloadermain(int argc, char** argv) {
     if (argc != 3) {
         std::cerr << "Usage: " << argv[0] << " <url> <output_file>\n";
         return 1;

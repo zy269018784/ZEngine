@@ -3,7 +3,7 @@
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
 #include "http.h"
-int http_main(int argc, char* argv[])
+int http_main(int argc, char** argv)
 {
     try {
         if (argc != 4) {
