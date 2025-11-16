@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "IAudioPlayer.h"
-#include <filesystem>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Music.hpp>
+#include "IAudioPlayer.h"
+#include <filesystem>
 
 class SFMLAudioPlayer : public IAudioPlayer
 {
