@@ -27,9 +27,9 @@ LVGLWindow::LVGLWindow(int Width, int Height, const char* Title, GraphicsAPI API
         simulator_mode);
 #endif
 #ifdef SYSTEM_IS_LINUX
-    lv_display_t* display = lv_x11_window_create(L"LVGL Windows Simulator Display 1",
-        800,
-        480);
+   // lv_display_t* display = lv_x11_window_create(L"LVGL Windows Simulator Display 1",
+   //     800,
+   //     480);
 #endif
 
     lv_obj_t* label1 = lv_label_create(lv_screen_active());

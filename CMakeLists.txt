@@ -175,8 +175,8 @@ elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/libtwolame/0.4.0/lib)
 	list(APPEND LIBRARYS twolame)	
 	
-	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/curl/8.11/include)
-	list(APPEND LINK_PATH    ${LIBRARY_PATH}/curl/8.11/lib)
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/curl/8.17.0/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/curl/8.17.0/lib)
 	list(APPEND LIBRARYS curl)	
 	
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/FLAC/1.5.0/include)
